@@ -18,7 +18,7 @@ func main() {
 		log.Fatal("Error: ", err)
 	}
 
-	ast.Print(nil, f)
+	// 	ast.Print(nil, f)
 
 	//抽象構文木を深さ優先で探索する
 	ast.Inspect(f, func(n ast.Node) bool {
@@ -37,29 +37,18 @@ func main() {
 		if selector.Sel.Name != "QueryRowContext" {
 			return true
 		}
-		fmt.Println(selector.Sel.Name)
 
-		arg := callExpr.Args[1]
-		basicLit, ok := arg.(*ast.BasicLit)
-		fmt.Println(strings.ToLower(basicLit.Value))
-		strings.Contains("select", strings.ToLower(basicLit.Value))
-		if strings.Contains("select", strings.ToLower(basicLit.Value)) {
-			return true
+		for _, arg := range callExpr.Args {
+			basicLit, ok := arg.(*ast.BasicLit)
+			if !ok {
+				continue
+			}
+			// QueryContext関数の中にselectという文字列が入っている場合は無視
+			if strings.HasPrefix(strings.ToLower(basicLit.Value), "select") {
+				return true
+			}
+			break
 		}
-
-		// 		for _, arg := range callExpr.Args {
-		// 			basicLit, ok := arg.(*ast.BasicLit)
-		// 			if !ok {
-		// 				return true
-		// 			}
-		// 			fmt.Println("a")
-		// 			// QueryContext関数の中にselectという文字列が入っている場合は無視
-		// 			fmt.Println(basicLit.Value)
-		// 			if strings.Contains("select", strings.ToLower(basicLit.Value)) {
-		// 				return true
-		// 			}
-		// 			break
-		// 		}
 
 		fmt.Println(fset.Position(callExpr.Fun.Pos()))
 		return true
