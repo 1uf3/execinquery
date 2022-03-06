@@ -9,7 +9,7 @@ import (
 	"golang.org/x/tools/go/ast/inspector"
 )
 
-const doc = "sqlint is ..."
+const doc = "sqlint is golang-sql-linter"
 
 // Analyzer is ...
 var Analyzer = &analysis.Analyzer{
@@ -24,12 +24,7 @@ var Analyzer = &analysis.Analyzer{
 func run(pass *analysis.Pass) (interface{}, error) {
 	inspect := pass.ResultOf[inspect.Analyzer].(*inspector.Inspector)
 
-	nodeFilter := []ast.Node{
-		(*ast.Ident)(nil),
-	}
-
-	inspect.Preorder(nodeFilter, func(n ast.Node) {
-
+	inspect.Preorder(nil, func(n ast.Node) {
 		switch n := n.(type) {
 		case *ast.CallExpr:
 			selector, ok := n.Fun.(*ast.SelectorExpr)
@@ -37,7 +32,6 @@ func run(pass *analysis.Pass) (interface{}, error) {
 				break
 			}
 
-			// 識別子がQueryRowContextという名前でなければ無視
 			if selector.Sel.Name != "QueryRowContext" {
 				break
 			}
@@ -47,17 +41,14 @@ func run(pass *analysis.Pass) (interface{}, error) {
 				if !ok {
 					continue
 				}
-				// QueryContext関数の中にselectという文字列が入っている場合は無視
 				s := strings.Replace(basicLit.Value, "\"", "", -1)
 				if strings.HasPrefix(strings.ToLower(s), "select") {
-					break
+					continue
 				}
-
 				s = strings.ToTitle(strings.Split(s, " ")[0])
 				pass.Reportf(n.Fun.Pos(), "QueryRowContext() can not use `%s` query", s)
 			}
 		}
 	})
-
 	return nil, nil
 }
