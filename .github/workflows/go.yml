@@ -31,7 +31,7 @@ jobs:
         go mod download
         
     - name: Test
-      run: go test -v ./..
+      run: go test
     
   lint:
     name: Lint

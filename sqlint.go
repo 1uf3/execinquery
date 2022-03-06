@@ -54,7 +54,7 @@ func run(pass *analysis.Pass) (interface{}, error) {
 				}
 
 				s = strings.ToTitle(strings.Split(s, " ")[0])
-				pass.Reportf(n.Fun.Pos(), "QueryRowContext() can not use \"%s\" query", s)
+				pass.Reportf(n.Fun.Pos(), "QueryRowContext() can not use `%s` query", s)
 			}
 		}
 	})
