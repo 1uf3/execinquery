@@ -11,7 +11,7 @@ import (
 
 const doc = "sqlint is golang-sql-linter"
 
-// Analyzer is ...
+// Analyzer is checking database/sql pkg Query's function
 var Analyzer = &analysis.Analyzer{
 	Name: "sqlint",
 	Doc:  doc,
@@ -46,7 +46,7 @@ func run(pass *analysis.Pass) (interface{}, error) {
 					continue
 				}
 				s = strings.ToTitle(strings.Split(s, " ")[0])
-				pass.Reportf(n.Fun.Pos(), "QueryRowContext() can not use `%s` query", s)
+				pass.Reportf(n.Fun.Pos(), "QueryRowContext() not recommended execute `%s` query", s)
 			}
 		}
 	})
