@@ -19,6 +19,6 @@ func f(t *testing.T) {
 
 	_ = db.QueryRowContext(context.Background(), "SELECT * FROM comments WHERE user=?", s)
 
-	_ = db.QueryRowContext(context.Background(), "DELETE * FROM comments WHERE user=?", s) // want "QueryRowContext\\(\\) can not use `DELETE` query"
-	_ = db.QueryRowContext(context.Background(), "UPDATE * FROM comments WHERE user=?", s) // want "QueryRowContext\\(\\) can not use `UPDATE` query"
+	_ = db.QueryRowContext(context.Background(), "DELETE * FROM comments WHERE user=?", s) // want "QueryRowContext\\(\\) not recommended execute `DELETE` query"
+	_ = db.QueryRowContext(context.Background(), "UPDATE * FROM comments WHERE user=?", s) // want "QueryRowContext\\(\\) not recommended execute `UPDATE` query"
 }
