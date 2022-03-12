@@ -32,7 +32,7 @@ func run(pass *analysis.Pass) (interface{}, error) {
 				break
 			}
 
-			if selector.Sel.Name != "QueryRowContext" {
+			if !strings.Contains(selector.Sel.Name, "Query") {
 				break
 			}
 
@@ -46,7 +46,7 @@ func run(pass *analysis.Pass) (interface{}, error) {
 					continue
 				}
 				s = strings.ToTitle(strings.Split(s, " ")[0])
-				pass.Reportf(n.Fun.Pos(), "QueryRowContext() not recommended execute `%s` query", s)
+				pass.Reportf(n.Fun.Pos(), "%s() not recommended execute `%s` query", selector.Sel.Name, s)
 			}
 		}
 	})
