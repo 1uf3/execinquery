@@ -6,7 +6,7 @@
 SQLint is a simple command-line linter which reads your golang src files and
 reports any syntax errors or warnings it finds.
 
-Now, Only reports "QueryRowContext" function in dababase/sql package.
+Now, Only reports "Query" functions in dababase/sql package.
 
 ### Installation
 
