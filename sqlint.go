@@ -36,18 +36,36 @@ func run(pass *analysis.Pass) (interface{}, error) {
 				break
 			}
 
-			for _, arg := range n.Args {
-				basicLit, ok := arg.(*ast.BasicLit)
-				if !ok {
-					continue
-				}
-				s := strings.Replace(basicLit.Value, "\"", "", -1)
-				if strings.HasPrefix(strings.ToLower(s), "select") {
-					continue
-				}
-				s = strings.ToTitle(strings.Split(s, " ")[0])
-				pass.Reportf(n.Fun.Pos(), "%s() not recommended execute `%s` query", selector.Sel.Name, s)
+			i := 0
+			if strings.Contains(selector.Sel.Name, "Context") {
+				i = 1
 			}
+
+			var s string
+			switch arg := n.Args[i].(type) {
+			case *ast.BasicLit:
+				s = strings.Replace(arg.Value, "\"", "", -1)
+			case *ast.Ident:
+				stmt, ok := arg.Obj.Decl.(*ast.AssignStmt)
+				if !ok {
+					break
+				}
+				for _, stmt := range stmt.Rhs {
+					basicLit, ok := stmt.(*ast.BasicLit)
+					if !ok {
+						continue
+					}
+					s = strings.Replace(basicLit.Value, "\"", "", -1)
+				}
+			default:
+				break
+			}
+
+			if strings.HasPrefix(strings.ToLower(s), "select") {
+				break
+			}
+			s = strings.ToTitle(strings.Split(s, " ")[0])
+			pass.Reportf(n.Fun.Pos(), "%s() not recommended execute `%s` query", selector.Sel.Name, s)
 		}
 	})
 	return nil, nil
