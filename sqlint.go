@@ -65,7 +65,7 @@ func run(pass *analysis.Pass) (interface{}, error) {
 				break
 			}
 			s = strings.ToTitle(strings.Split(s, " ")[0])
-			pass.Reportf(n.Fun.Pos(), "%s() not recommended execute `%s` query", selector.Sel.Name, s)
+			pass.Reportf(n.Fun.Pos(), "It's better to use Execute method instead of %s method to execute `%s` query", selector.Sel.Name, s)
 		}
 	})
 	return nil, nil
