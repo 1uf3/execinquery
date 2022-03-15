@@ -1,4 +1,4 @@
-package sqlint
+package execinquery
 
 import (
 	"go/ast"
@@ -9,7 +9,7 @@ import (
 	"golang.org/x/tools/go/ast/inspector"
 )
 
-const doc = "sqlint is golang-sql-linter"
+const doc = "execinquery is checking query in Query function"
 
 // Analyzer is checking database/sql pkg Query's function
 var Analyzer = &analysis.Analyzer{
@@ -36,7 +36,7 @@ func run(pass *analysis.Pass) (interface{}, error) {
 				break
 			}
 
-			i := 0
+			var i int
 			if strings.Contains(selector.Sel.Name, "Context") {
 				i = 1
 			}

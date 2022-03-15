@@ -1,12 +1,10 @@
-## sqlint - a simple SQL linter
-[![sqlint](https://github.com/lufeee/sqlint/actions/workflows/go.yml/badge.svg?branch=main)](https://github.com/lufeee/sqlint/actions/workflows/go.yml)
+## execinquery - a simple query string checker in Query function
+[![sqlQstr](https://github.com/lufeee/sqlint/actions/workflows/go.yml/badge.svg?branch=main)](https://github.com/lufeee/sqlint/actions/workflows/go.yml)
 
 ### About
 
-SQLint is a simple command-line linter which reads your golang src files and
-reports any syntax errors or warnings it finds.
-
-Now, Only reports "Query" functions in dababase/sql package.
+execinquery is a linter about query string checker in Query function which reads your Go src files and
+warnings it finds.
 
 ### Installation
 

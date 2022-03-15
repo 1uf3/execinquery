@@ -1,4 +1,4 @@
-module lufe.jp/sqlint
+module github.com/lufeee/execinquery
 
 go 1.17
 

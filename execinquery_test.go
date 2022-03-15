@@ -1,15 +1,15 @@
-package sqlint_test
+package execinquery_test
 
 import (
 	"testing"
 
 	"github.com/gostaticanalysis/testutil"
+	"github.com/lufeee/execinquery"
 	"golang.org/x/tools/go/analysis/analysistest"
-	"lufe.jp/sqlint"
 )
 
 // TestAnalyzer is a test for Analyzer.
 func TestAnalyzer(t *testing.T) {
 	testdata := testutil.WithModules(t, analysistest.TestData(), nil)
-	analysistest.Run(t, testdata, sqlint.Analyzer, "a")
+	analysistest.Run(t, testdata, execinquery.Analyzer, "a")
 }
