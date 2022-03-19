@@ -9,7 +9,7 @@ import (
 	"golang.org/x/tools/go/ast/inspector"
 )
 
-const doc = "execinquery is checking query in Query function"
+const doc = "execinquery is a linter about query string checker in Query function which reads your Go src files and warning it finds"
 
 // Analyzer is checking database/sql pkg Query's function
 var Analyzer = &analysis.Analyzer{
