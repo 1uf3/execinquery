@@ -13,7 +13,7 @@ const doc = "execinquery is a linter about query string checker in Query functio
 
 // Analyzer is checking database/sql pkg Query's function
 var Analyzer = &analysis.Analyzer{
-	Name: "sqlint",
+	Name: "execinquery",
 	Doc:  doc,
 	Run:  run,
 	Requires: []*analysis.Analyzer{
