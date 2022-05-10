@@ -31,10 +31,6 @@ func run(pass *analysis.Pass) (interface{}, error) {
 	result.Preorder(nodeFilter, func(n ast.Node) {
 		switch n := n.(type) {
 		case *ast.CallExpr:
-			if len(n.Args) < 1 {
-				return
-			}
-
 			selector, ok := n.Fun.(*ast.SelectorExpr)
 			if !ok {
 				return
@@ -51,6 +47,10 @@ func run(pass *analysis.Pass) (interface{}, error) {
 			var i int
 			if strings.Contains(selector.Sel.Name, "Context") {
 				i = 1
+			}
+
+			if len(n.Args) <= i {
+				return
 			}
 
 			var s string
