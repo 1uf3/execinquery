@@ -22,18 +22,26 @@ var Analyzer = &analysis.Analyzer{
 }
 
 func run(pass *analysis.Pass) (interface{}, error) {
-	inspect := pass.ResultOf[inspect.Analyzer].(*inspector.Inspector)
+	result := pass.ResultOf[inspect.Analyzer].(*inspector.Inspector)
 
-	inspect.Preorder(nil, func(n ast.Node) {
+	nodeFilter := []ast.Node{
+		(*ast.CallExpr)(nil),
+	}
+
+	result.Preorder(nodeFilter, func(n ast.Node) {
 		switch n := n.(type) {
 		case *ast.CallExpr:
+			if len(n.Args) < 1 {
+				return
+			}
+
 			selector, ok := n.Fun.(*ast.SelectorExpr)
 			if !ok {
-				break
+				return
 			}
 
 			if !strings.Contains(selector.Sel.Name, "Query") {
-				break
+				return
 			}
 
 			var i int
@@ -45,28 +53,35 @@ func run(pass *analysis.Pass) (interface{}, error) {
 			switch arg := n.Args[i].(type) {
 			case *ast.BasicLit:
 				s = strings.Replace(arg.Value, "\"", "", -1)
+
 			case *ast.Ident:
 				stmt, ok := arg.Obj.Decl.(*ast.AssignStmt)
 				if !ok {
-					break
+					return
 				}
+
 				for _, stmt := range stmt.Rhs {
 					basicLit, ok := stmt.(*ast.BasicLit)
 					if !ok {
 						continue
 					}
+
 					s = strings.Replace(basicLit.Value, "\"", "", -1)
 				}
+
 			default:
-				break
+				return
 			}
 
 			if strings.HasPrefix(strings.ToLower(s), "select") {
-				break
+				return
 			}
-			s = strings.ToTitle(strings.Split(s, " ")[0])
+
+			s = strings.ToTitle(strings.SplitN(s, " ", 2)[0])
+
 			pass.Reportf(n.Fun.Pos(), "It's better to use Execute method instead of %s method to execute `%s` query", selector.Sel.Name, s)
 		}
 	})
+
 	return nil, nil
 }
