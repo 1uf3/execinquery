@@ -40,6 +40,10 @@ func run(pass *analysis.Pass) (interface{}, error) {
 				return
 			}
 
+			if "database/sql" != pass.TypesInfo.Uses[selector.Sel].Pkg().Path() {
+				return
+			}
+
 			if !strings.Contains(selector.Sel.Name, "Query") {
 				return
 			}
