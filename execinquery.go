@@ -3,6 +3,7 @@ package execinquery
 import (
 	"go/ast"
 	"strings"
+	"unicode"
 
 	"golang.org/x/tools/go/analysis"
 	"golang.org/x/tools/go/analysis/passes/inspect"
@@ -76,7 +77,10 @@ func run(pass *analysis.Pass) (interface{}, error) {
 						return
 					}
 
-					s = strings.Replace(basicLit.Value, "\"", "", -1)
+					s = strings.TrimLeftFunc(basicLit.Value, func(r rune) bool {
+						return !unicode.IsLetter(r) && !unicode.IsNumber(r)
+					})
+					s = strings.Replace(s, "\"", "", -1)
 				}
 
 			default:

@@ -6,6 +6,10 @@ import (
 	"testing"
 )
 
+const cquery = `
+	UPDATE * FROM test where test=?
+`
+
 func setup() *sql.DB {
 	db, _ := sql.Open("mysql", "test:test@tcp(test:3306)/test")
 	return db
@@ -31,4 +35,5 @@ func f(t *testing.T) {
 	var query1 string = "UPDATE * FROM test where test=?"
 	_, _ = db.Query(query, s)  // want "It\\'s better to use Execute method instead of Query method to execute `UPDATE` query"
 	_, _ = db.Query(query1, s) // want "It\\'s better to use Execute method instead of Query method to execute `UPDATE` query"
+	_, _ = db.Query(cquery, s) // want "It\\'s better to use Execute method instead of Query method to execute `UPDATE` query"
 }
