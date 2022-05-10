@@ -59,15 +59,21 @@ func run(pass *analysis.Pass) (interface{}, error) {
 				s = strings.Replace(arg.Value, "\"", "", -1)
 
 			case *ast.Ident:
-				stmt, ok := arg.Obj.Decl.(*ast.AssignStmt)
-				if !ok {
-					return
-				}
 
-				for _, stmt := range stmt.Rhs {
-					basicLit, ok := stmt.(*ast.BasicLit)
+				switch arg2 := arg.Obj.Decl.(type) {
+				case *ast.AssignStmt:
+					for _, stmt := range arg2.Rhs {
+						basicLit, ok := stmt.(*ast.BasicLit)
+						if !ok {
+							continue
+						}
+
+						s = strings.Replace(basicLit.Value, "\"", "", -1)
+					}
+				case *ast.ValueSpec:
+					basicLit, ok := arg2.Values[0].(*ast.BasicLit)
 					if !ok {
-						continue
+						return
 					}
 
 					s = strings.Replace(basicLit.Value, "\"", "", -1)

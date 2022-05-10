@@ -18,6 +18,7 @@ func f(t *testing.T) {
 	s := "alice"
 
 	_ = db.QueryRowContext(context.Background(), "SELECT * FROM test WHERE test=?", s)
+	_ = db.QueryRowContext(context.Background(), "SELECT * FROM test WHERE test=?", s)
 
 	_ = db.QueryRowContext(context.Background(), "DELETE * FROM test WHERE test=?", s) // want "It\\'s better to use Execute method instead of QueryRowContext method to execute `DELETE` query"
 	_ = db.QueryRowContext(context.Background(), "UPDATE * FROM test WHERE test=?", s) // want "It\\'s better to use Execute method instead of QueryRowContext method to execute `UPDATE` query"
@@ -27,5 +28,7 @@ func f(t *testing.T) {
 	_ = db.QueryRow("UPDATE * FROM test WHERE test=?", s)                              // want "It\\'s better to use Execute method instead of QueryRow method to execute `UPDATE` query"
 
 	query := "UPDATE * FROM test where test=?"
-	_, _ = db.Query(query, s) // want "It\\'s better to use Execute method instead of Query method to execute `UPDATE` query"
+	var query1 string = "UPDATE * FROM test where test=?"
+	_, _ = db.Query(query, s)  // want "It\\'s better to use Execute method instead of Query method to execute `UPDATE` query"
+	_, _ = db.Query(query1, s) // want "It\\'s better to use Execute method instead of Query method to execute `UPDATE` query"
 }
