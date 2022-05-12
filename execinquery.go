@@ -116,6 +116,9 @@ func (l linter) getQueryString(exp interface{}) string {
 		return v
 
 	case *ast.Ident:
+		if e.Obj == nil {
+			return ""
+		}
 		return l.getQueryString(e.Obj.Decl)
 
 	case *ast.BinaryExpr:
