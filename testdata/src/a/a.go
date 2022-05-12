@@ -3,6 +3,7 @@ package a
 import (
 	"context"
 	"database/sql"
+	"errors"
 )
 
 const selectWithComment = `-- foobar
@@ -58,4 +59,7 @@ UPDATE * FROM test WHERE test=?`
 	f5 := `
 UPDATE * ` + `FROM test` + ` WHERE test=?`
 	_ = db.QueryRow(f5, s) // want "Use Exec instead of QueryRow to execute `UPDATE` query"
+
+	err := errors.New("oops")
+	err.Error()
 }
