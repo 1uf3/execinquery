@@ -38,6 +38,8 @@ func sample(db *sql.DB) {
 	_, _ = db.QueryContext(context.Background(), "UPDATE * FROM test WHERE test=?", s) // want "Use ExecContext instead of QueryContext to execute `UPDATE` query"
 	_ = db.QueryRow("UPDATE * FROM test WHERE test=?", s)                              // want "Use Exec instead of QueryRow to execute `UPDATE` query"
 
+	_, _ = db.Query(otherFileValue, s)
+
 	query := "UPDATE * FROM test where test=?"
 	_, _ = db.Query(query, s) // want "Use Exec instead of Query to execute `UPDATE` query"
 
