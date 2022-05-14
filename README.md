@@ -1,7 +1,9 @@
 # execinquery - a simple query string checker in Query function
+
 [![Go Matrix](https://github.com/lufeee/execinquery/actions/workflows/go-cross.yml/badge.svg?branch=main)](https://github.com/lufeee/execinquery/actions/workflows/go-cross.yml)
 [![Go lint](https://github.com/lufeee/execinquery/actions/workflows/lint.yml/badge.svg?branch=main)](https://github.com/lufeee/execinquery/actions/workflows/lint.yml)
 [![MIT License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](LICENSE)
+
 ## About
 
 execinquery is a linter about query string checker in Query function which reads your Go src files and
@@ -10,10 +12,11 @@ warnings it finds.
 ## Installation
 
 ```sh
-go install github.com/lufeee/execinquery/cmd/execinquery
+go install github.com/lufeee/execinquery/cmd/execinquery@latest
 ```
 
 ## Usage
+
 ```go
 package main
 

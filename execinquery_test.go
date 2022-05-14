@@ -4,9 +4,8 @@ import (
 	"testing"
 
 	"github.com/gostaticanalysis/testutil"
-	"golang.org/x/tools/go/analysis/analysistest"
-
 	"github.com/lufeee/execinquery"
+	"golang.org/x/tools/go/analysis/analysistest"
 )
 
 // TestAnalyzer is a test for Analyzer.
